@@ -1,0 +1,24 @@
+{
+  "name": "noticias",
+  "version": "1.0.0",
+  "description": "Portal de Notícias",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juniorvilasboas/noticias.git"
+  },
+  "author": "Moacyr Santana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juniorvilasboas/noticias/issues"
+  },
+  "homepage": "https://github.com/juniorvilasboas/noticias#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.7"
+  }
+}
