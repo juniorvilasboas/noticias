@@ -6,6 +6,8 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 
 const User = require('./models/user')
+const Noticia = require('./models/noticia')
+
 const pages = require('./routes/pages')
 const auth = require('./routes/auth')
 const noticias = require('./routes/noticia')
@@ -61,6 +63,20 @@ const createInitialUser = async () => {
   } else {
     console.log('User create skipped')
   }
+
+  const noticia = await new Noticia({
+    title: 'Noticia pública ' + new Date().getTime(),
+    content: 'Content',
+    category: 'public'
+  })
+  noticia.save()
+
+  const noticia2 = await new Noticia({
+    title: 'Noticia privada ' + new Date().getTime(),
+    content: 'Content',
+    category: 'private'
+  })
+  noticia2.save()
 }
 
 mongoose
