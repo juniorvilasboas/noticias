@@ -6,6 +6,8 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 
 const User = require('./models/user')
+const pages = require('./routes/pages')
+const auth = require('./routes/auth')
 const noticias = require('./routes/noticia')
 const restrito = require('./routes/restrito')
 
@@ -27,6 +29,13 @@ app.use(session({
   saveUninitialized: true
 }))
 
+app.use((req, res, next) => {
+  if('user' in req.session) {
+    res.locals.user = req.session.user
+  }
+  next()
+})
+
 app.use('/restrito', (req, res, next) => {
   if('user' in req.session) {
     return next()
@@ -36,23 +45,9 @@ app.use('/restrito', (req, res, next) => {
 
 app.use('/noticias', noticias)
 app.use('/restrito', restrito)
+app.use('/', auth)
+app.use('/', pages)
 
-app.get('/', (req, res) => res.render('index'))
-app.get('/login', (req, res) => res.render('login'))
-app.post('/login', async (req, res) => {
-  const user = await User.findOne({ username: req.body.username })
-  if(user) {
-    const isValid = await user.checkPassword(req.body.password)
-    if(isValid) {
-      req.session.user = user
-      res.redirect('/restrito/noticias')
-    } else {
-      res.redirect('/login')
-    }
-  } else {
-    res.redirect('/login')
-  }
-})
 
 const createInitialUser = async () => {
   const total = await User.count({ username: 'moacyr' })
