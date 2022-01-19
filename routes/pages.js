@@ -1,6 +1,8 @@
 const express = require('express')
+const pageController = require('../controllers/page')
+
 const router = express.Router()
 
-router.get('/', (req, res) => res.render('index'))
+router.get('/', pageController.index)
 
 module.exports = router
