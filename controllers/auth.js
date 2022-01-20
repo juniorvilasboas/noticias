@@ -20,7 +20,14 @@ const login = async (req, res) => {
   }
 }
 
+const logout = (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/')
+  })
+}
+
 module.exports = {
   index,
-  login
+  login,
+  logout
 }

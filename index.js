@@ -6,7 +6,6 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 
 const User = require('./models/user')
-const Noticia = require('./models/noticia')
 
 const pages = require('./routes/pages')
 const auth = require('./routes/auth')
@@ -31,25 +30,10 @@ app.use(session({
   saveUninitialized: true
 }))
 
-app.use((req, res, next) => {
-  if('user' in req.session) {
-    res.locals.user = req.session.user
-  }
-  next()
-})
-
-app.use('/restrito', (req, res, next) => {
-  if('user' in req.session) {
-    return next()
-  }
-  res.redirect('/login')
-})
-
-app.use('/noticias', noticias)
-app.use('/restrito', restrito)
 app.use('/', auth)
 app.use('/', pages)
-
+app.use('/noticias', noticias)
+app.use('/restrito', restrito)
 
 const createInitialUser = async () => {
   const total = await User.count({ username: 'moacyr' })
@@ -64,6 +48,7 @@ const createInitialUser = async () => {
     console.log('User create skipped')
   }
 
+  /*
   const noticia = await new Noticia({
     title: 'Noticia pública ' + new Date().getTime(),
     content: 'Content',
@@ -77,6 +62,7 @@ const createInitialUser = async () => {
     category: 'private'
   })
   noticia2.save()
+  */
 }
 
 mongoose
