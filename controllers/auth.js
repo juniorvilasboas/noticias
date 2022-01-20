@@ -11,7 +11,8 @@ const login = async (req, res) => {
     const isValid = await user.checkPassword(req.body.password)
     if(isValid) {
       req.session.user = user
-      res.redirect('/restrito/noticias')
+      req.session.role = user.roles[0]
+      res.redirect('/noticias/restrito')
     } else {
       res.redirect('/login')
     }
@@ -26,8 +27,18 @@ const logout = (req, res) => {
   })
 }
 
+const roles = async (req, res) => {
+  if('user' in req.session) {
+    if(req.session.user.roles.indexOf(req.params.role)>=0) {
+      req.session.role = req.params.role
+    }
+  }
+  res.redirect('/')
+}
+
 module.exports = {
   index,
   login,
-  logout
+  logout,
+  roles
 }

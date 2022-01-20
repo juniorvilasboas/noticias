@@ -10,7 +10,6 @@ const User = require('./models/user')
 const pages = require('./routes/pages')
 const auth = require('./routes/auth')
 const noticias = require('./routes/noticia')
-const restrito = require('./routes/restrito')
 
 mongoose.Promise = global.Promise
 dotenv.config()
@@ -33,16 +32,25 @@ app.use(session({
 app.use('/', auth)
 app.use('/', pages)
 app.use('/noticias', noticias)
-app.use('/restrito', restrito)
 
 const createInitialUser = async () => {
-  const total = await User.count({ username: 'moacyr' })
+  const total = await User.count({})
   if(total === 0) {
-    const user = new User({
-      username: 'moacyr',
-      password: '12345'
+    const user1 = new User({
+      username: 'user1',
+      password: '1234',
+      roles: ['restrito', 'admin'],
+      activeRole: 'admin'
     })
-    await user.save()
+    await user1.save()
+
+    const user2 = new User({
+      username: 'user2',
+      password: '1234',
+      roles: ['restrito'],
+      activeRole: 'restrito'
+    })
+    await user2.save()
     console.log('User created!')
   } else {
     console.log('User create skipped')

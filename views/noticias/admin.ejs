@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+
+  <div class="text-center">
+    <h1>Notícias Admin</h1>
+    <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a
+      mostly barebones HTML document.</p>
+
+    <table>
+      <% noticias.forEach( noticia=> { %>
+        <tr>
+          <td>
+            <%= noticia.title %>
+          </td>
+        </tr>
+        <% }) %>
+    </table>
+  </div>
+
+  <%- include('../partials/footer') %>
