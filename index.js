@@ -49,15 +49,9 @@ const createInitialUser = async () => {
       roles: ['restrito']
     })
     await user2.save()
-
-    const user3 = new User({
-      name: 'Moacyr Santana',
-      facebookId: '100077526636929',
-      roles: ['restrito']
-    })
-    await user3.save()
     console.log('User created!')
   } else {
+    console.log(process.env.GOOGLE_CLIENT)
     console.log('User create skipped')
   }
 

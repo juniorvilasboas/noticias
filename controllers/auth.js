@@ -1,10 +1,12 @@
 const express = require('express')
+const dotenv = require('dotenv')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 
 const User = require('../models/user')
+dotenv.config()
 
 passport.use(new LocalStrategy(async (username, password, done) => {
   const user = await User.findOne({ username })
@@ -21,8 +23,8 @@ passport.use(new LocalStrategy(async (username, password, done) => {
 }))
 
 passport.use(new FacebookStrategy({
-  clientID: '2040584456096050',
-  clientSecret: '19e07bc6d7f3348b194112d12d92428b',
+  clientID: process.env.FACEBOOK_CLIENT,
+  clientSecret: process.env.SECRET_FACEBOOK,
   callbackURL: 'http://localhost:3000/facebook/callback',
   profileFields: ['id', 'displayName', 'email', 'photos']
 }, async (accessToken, refreshToken, profile, done) => {
@@ -41,8 +43,8 @@ passport.use(new FacebookStrategy({
 }))
 
 passport.use(new GoogleStrategy({
-  clientID: '679414641501-8odcuclvid60qtiqso0im9ctcobe09vj.apps.googleusercontent.com',
-  clientSecret: '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',
+  clientID: process.env.GOOGLE_CLIENT,
+  clientSecret: process.env.SECRET_GOOGLE,
   callbackURL: 'http://localhost:3000/google/callback'
 }, async (accessToken, refreshToken, err, profile, done) => {
   const userDB = await User.findOne({ googleId: profile.id })
