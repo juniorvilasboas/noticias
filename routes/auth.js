@@ -1,6 +1,8 @@
 const express = require('express')
 const passport = require('passport')
-const userController = require('../controllers/auth')
+
+const User = require('../models/user')
+const authController = require('../controllers/auth')
 
 const router = express.Router()
 
@@ -18,13 +20,29 @@ router.use((req, res, next) => {
   next()
 })
 
-router.get('/login', userController.index)
+passport.serializeUser((user, done) => {
+  done(null, user)
+})
+passport.deserializeUser((user, done) => {
+  done(null, user)
+})
+
+router.get('/login', authController.index)
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
   failureFlash: false
 }))
-router.get('/logout', userController.logout)
-router.get('/change-role/:role', userController.roles)
+router.get('/facebook', authController.facebook)
+router.get('/facebook/callback',
+              passport.authenticate('facebook', { failureRedirect: '/' }),
+              (req, res) => {
+                res.redirect('/')
+              }
+)
+router.get('/google', authController.google)
+router.get('/google/callback', authController.googleCallback)
+router.get('/logout', authController.logout)
+router.get('/change-role/:role', authController.changeRole)
 
 module.exports = router

@@ -39,18 +39,23 @@ const createInitialUser = async () => {
     const user1 = new User({
       username: 'user1',
       password: '1234',
-      roles: ['restrito', 'admin'],
-      activeRole: 'admin'
+      roles: ['restrito', 'admin']
     })
     await user1.save()
 
     const user2 = new User({
       username: 'user2',
       password: '1234',
-      roles: ['restrito'],
-      activeRole: 'restrito'
+      roles: ['restrito']
     })
     await user2.save()
+
+    const user3 = new User({
+      name: 'Moacyr Santana',
+      facebookId: '100077526636929',
+      roles: ['restrito']
+    })
+    await user3.save()
     console.log('User created!')
   } else {
     console.log('User create skipped')
