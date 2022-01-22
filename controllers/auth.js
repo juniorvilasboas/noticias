@@ -24,7 +24,7 @@ passport.use(new LocalStrategy(async (username, password, done) => {
 
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_CLIENT,
-  clientSecret: process.env.SECRET_FACEBOOK,
+  clientSecret: process.env.FACEBOOK_SECRET,
   callbackURL: 'http://localhost:3000/facebook/callback',
   profileFields: ['id', 'displayName', 'email', 'photos']
 }, async (accessToken, refreshToken, profile, done) => {
@@ -44,7 +44,7 @@ passport.use(new FacebookStrategy({
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT,
-  clientSecret: process.env.SECRET_GOOGLE,
+  clientSecret: process.env.GOOGLE_SECRET,
   callbackURL: 'http://localhost:3000/google/callback'
 }, async (accessToken, refreshToken, err, profile, done) => {
   const userDB = await User.findOne({ googleId: profile.id })

@@ -51,7 +51,6 @@ const createInitialUser = async () => {
     await user2.save()
     console.log('User created!')
   } else {
-    console.log(process.env.GOOGLE_CLIENT)
     console.log('User create skipped')
   }
 
